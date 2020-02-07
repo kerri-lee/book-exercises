@@ -38,26 +38,27 @@ num_public_repos <- content %>%
 # Now a second query:
 # Create a variable `search_endpoint` that stores the endpoint used to search 
 # for repositories. (Hint: look for a "Search" endpoint in the documentation).
-search_endpoint <- "/search/repositories?"
+search_endpoint <- "/search/repositories"
 
 # Search queries require a query parameter (for what to search for). Create a 
 # `query_params` list variable that specifies an appropriate key and value for 
 # the search term (you can search for anything you want!)
-query_params <- "q=topic:data-science+language:r&sort=stars"
+query_params <- list(q = "data-science-r")
 
 # Send a GET request to the `search_endpoint`--including your params list as the
 # `query`. Print the response to show that your request worked.
-print(GET(paste0(base_uri, search_endpoint, query_params)))
+response <- GET(paste0(base_uri, search_endpoint), query = query_params)
+print(response)
 
 # Extract the content of the response and convert it from a JSON string into a
 # data frame. 
-content <- content(GET(paste0(base_uri, search_endpoint, query_params)), "text")
-content_df <- fromJSON(content)$items
-  
+response_text <- content(response, "text")
+content_df <- fromJSON(response_text)
 
 # How many search repos did your search find? (Hint: check the list names to 
 # find an appropriate value).
-nrow(content_df)
+print(content_df$total_count)
 
 # What are the full names of the top 5 repos in the search results?
-select(slice(content_df, 1:5), name)
+names <- content_df$items$full_name[1:5]
+print(names)
