@@ -13,15 +13,15 @@ library("ggplot2")
 # Draw a column (bar) chart of diamonds cuts by price, with each bar filled by 
 # clarity. You should see a _stacked_ bar chart.
 ggplot(data = diamonds_sample) +
-  geom_col(mapping = aes(x = price, y = cut, stack = clarity))
+  geom_col(mapping = aes(x = price, y = cut, fill = clarity))
 
 # Draw the same chart again, but with each element positioned to "fill" the y axis
 ggplot(data = diamonds_sample) +
-  geom_col(mapping = aes(x = price, y = cut, stack = clarity, position = "fill"))
+  geom_col(mapping = aes(x = price, y = cut, fill = clarity), position = "fill")
 
 # Draw the same chart again, but with each element positioned to "dodge" each other
 ggplot(data = diamonds_sample) +
-  geom_col(mapping = aes(x = price, y = cut, stack = clarity, position = "dodge"))
+  geom_col(mapping = aes(x = price, y = cut, fill = clarity), position = "dodge")
 
 # Draw a plot with point geometry with the x-position mapped to `cut` and the 
 # y-position mapped to `clarity`
@@ -33,7 +33,7 @@ ggplot(data = diamonds_sample) +
 # (This works a little better with a sample of diamond data, such as from the 
 # previous exercise).
 ggplot(data = diamonds_sample) +
-  geom_point(mapping = aes(x = cut, y = clarity, position = "jitter"))
+  geom_point(mapping = aes(x = cut, y = clarity), position = "jitter")
 
 
 ## Scales
@@ -86,13 +86,16 @@ ggplot(data = diamonds_sample) +
 # For best results, SET the `width` of the geometry to be 1 (fill plot, no space
 # between)
 # TIP: You can save the plot to a variable for easier modifications
+bar_plot <- ggplot(data = diamonds_sample) +
+  geom_bar(mapping = aes(x = cut, fill = cut), width = 1)
 
+bar_plot
 
 # Draw the same chart, but with the coordinate system flipped
-
+bar_plot + coord_flip()
 
 # Draw the same chart, but in a polar coordinate system. It's a Coxcomb chart!
-
+bar_plot + coord_polar()
 
 
 ## Facets
